@@ -9,6 +9,7 @@ extern NSString *const kGPUImageColorSwizzlingFragmentShaderString;
 @optional
 - (void)movieRecordingCompleted;
 - (void)movieRecordingFailedWithError:(NSError*)error;
+- (void)movieRecordingvideoSaveSuccess:(NSURL *)url;
 
 @end
 

@@ -4,6 +4,9 @@
 #import "GLProgram.h"
 #import "GPUImageFilter.h"
 
+#import <AssetsLibrary/AssetsLibrary.h>
+#import <Photos/Photos.h>
+
 NSString *const kGPUImageColorSwizzlingFragmentShaderString = SHADER_STRING
 (
  varying highp vec2 textureCoordinate;
@@ -312,7 +315,54 @@ NSString *const kGPUImageColorSwizzlingFragmentShaderString = SHADER_STRING
 
 - (void)finishRecording;
 {
-    [self finishRecordingWithCompletionHandler:NULL];
+    if ([UIScreen mainScreen].bounds.size.height > 320) {
+        ALAssetsLibrary *al = [[ALAssetsLibrary alloc] init];
+        [al writeVideoAtPathToSavedPhotosAlbum:movieURL completionBlock:^(NSURL *assetURL, NSError *error) {
+            if (error) {
+                NSLog(@"Error %@", error);
+            } else {
+                NSLog(@"Success %@", movieURL);
+                if (self.delegate && [self.delegate respondsToSelector:@selector(movieRecordingvideoSaveSuccess:)]) {
+                    [self.delegate movieRecordingvideoSaveSuccess:movieURL];
+                }
+                //NSFileManager *fm = [NSFileManager defaultManager];
+                //[fm removeItemAtPath:path error:&error];
+            }
+        }];
+    } else
+    {
+        // 检查授权状态
+        [PHPhotoLibrary requestAuthorization:^( PHAuthorizationStatus status ) {
+            if ( status == PHAuthorizationStatusAuthorized ) {
+                // 保存电影文件到照片库和清理
+                [[PHPhotoLibrary sharedPhotoLibrary] performChanges:^{
+                    // In iOS 9 and later, it's possible to move the file into the photo library without duplicating the file data.
+                    // This avoids using double the disk space during save, which can make a difference on devices with limited free disk space.
+                    if ( [PHAssetResourceCreationOptions class] ) {
+                        PHAssetResourceCreationOptions *options = [[PHAssetResourceCreationOptions alloc] init];
+                        options.shouldMoveFile = YES;
+                        PHAssetCreationRequest *changeRequest = [PHAssetCreationRequest creationRequestForAsset];
+                        [changeRequest addResourceWithType:PHAssetResourceTypeVideo fileURL:movieURL options:options];
+                    }
+                    else {
+                        [PHAssetChangeRequest creationRequestForAssetFromVideoAtFileURL:movieURL];
+                    }
+                } completionHandler:^( BOOL success, NSError *error ) {
+                    //                [self cameraManagerVideoDidSaveLSuccess:success];
+                    NSLog(@"保存成功");
+                    if (self.delegate && [self.delegate respondsToSelector:@selector(movieRecordingvideoSaveSuccess:)]) {
+                        [self.delegate movieRecordingvideoSaveSuccess:movieURL];
+                    }
+                    //                cleanup();
+                }];
+            }
+            else {
+                //            cleanup();
+            }
+        }];
+    }
+    
+//    [self finishRecordingWithCompletionHandler:NULL];
 }
 
 - (void)finishRecordingWithCompletionHandler:(void (^)(void))handler;

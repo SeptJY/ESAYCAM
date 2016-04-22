@@ -9,6 +9,8 @@
 #import "AppDelegate.h"
 
 #import "JYHomeController.h"
+#import "JYNavigationController.h"
+#import "JYNewFetureViewCtl.h"
 
 @interface AppDelegate ()
 
@@ -19,14 +21,43 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     
-    self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
+    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     
-    self.window.rootViewController = [[JYHomeController alloc] init];
+    // 取出沙盒中存储的上次使用软件的版本号
+    NSString *lastVersion = [[NSUserDefaults standardUserDefaults] stringForKey:@"CFBundleShortVersionString"];
+    
+    // 获得当前软件的版本号
+    NSString *currentVersion = [NSBundle mainBundle].infoDictionary[@"CFBundleShortVersionString"];
+    fun(currentVersion);
+    if ([currentVersion isEqualToString:lastVersion]) {
+        // 显示状态栏
+        application.statusBarHidden = NO;
+        
+        JYNavigationController *navCtl = [[JYNavigationController alloc] initWithRootViewController:[[JYHomeController alloc] init]];
+        
+        self.window.rootViewController = navCtl;
+        
+    } else { // 新版本
+        UINavigationController *navCtl = [[UINavigationController alloc] initWithRootViewController:[[JYNewFetureViewCtl alloc] init]];
+        
+        self.window.rootViewController = navCtl;
+        // 存储新版本
+        [[NSUserDefaults standardUserDefaults] setObject:currentVersion forKey:@"CFBundleShortVersionString"];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+    }
     
     [self.window makeKeyAndVisible];
     
     return YES;
 }
+
+void fun(NSString *str)
+{
+    NSString *versionStr = [str stringByReplacingOccurrencesOfString:@"." withString:@""];
+    
+    [JYSeptManager sharedManager].version = [versionStr integerValue];
+}
+
 
 - (void)applicationWillResignActive:(UIApplication *)application {
     // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.

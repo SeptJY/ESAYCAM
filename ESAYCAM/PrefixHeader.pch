@@ -21,7 +21,7 @@
 //#import "JYDataManager.h"
 //#import "MBProgressHUD+JYExtension.h"
 #import "MWPhotoBrowser.h"
-//#import "JYCustomSliderView.h"
+#import "JYCustomSliderView.h"
 #import "JYSaveVideoData.h"
 #import "JYResolutionData.h"
 #import "GPUImage.h"

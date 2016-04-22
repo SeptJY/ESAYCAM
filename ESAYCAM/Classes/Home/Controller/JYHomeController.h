@@ -8,6 +8,24 @@
 
 #import <UIKit/UIKit.h>
 
+typedef NS_ENUM(NSUInteger, CoreBlueUseModel) {
+    CoreBlueUseModelFocus,
+    CoreBlueUseModelZOOM,
+    CoreBlueUseModelDurationAndFucus,
+    CoreBlueUseModelDurationAndZoom,
+    CoreBlueUseModelRepeatRecording,
+};
+
+typedef NS_ENUM(NSUInteger, CamereFangDaModel) {
+    CamereFangDaModelAuto,
+    CamereFangDaModelLock,
+    CamereFangDaModelHidden,
+};
+
 @interface JYHomeController : UIViewController
+
+@property (assign, nonatomic) CoreBlueUseModel useModel;
+
+@property (assign, nonatomic) CamereFangDaModel fangDaModel;
 
 @end
