@@ -157,6 +157,7 @@ static const float kExposureDurationPower = 5;
 #pragma mark -------------------------> 调焦焦距
 - (void)cameraManagerChangeFoucus:(CGFloat)value
 {
+//    NSLog(@"%f", value);
     CGFloat lensPosition = value - 0.5;
     if (videoInput.device.position == AVCaptureDevicePositionBack) {
         if (lensPosition < 0) {
@@ -245,8 +246,8 @@ static const float kExposureDurationPower = 5;
 
 - (void)cameraManagerVideoZoom:(CGFloat)zoom
 {
-    CGFloat value = 4 - 3 * zoom;
-    //    NSLog(@"赋值给系统 - %f", value);
+    CGFloat value = 2.5 - 3 * zoom;
+//        NSLog(@"赋值给系统 - %f", value);
     NSError *error = nil;
     AVCaptureDevice *currentVideoDevice = videoInput.device;
     

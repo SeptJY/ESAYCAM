@@ -19,6 +19,7 @@
 #import "JYCoreBlueView.h"
 #import "JYWebViewController.h"
 #import "JYTestView.h"
+#import "JYViewController.h"
 
 @interface JYHomeController () <JYCameraManagerDelegate, JYVideoViewDelegate, JYLeftTopViewDelegate, MWPhotoBrowserDelegate, DWBubbleMenuViewDelegate, JYSliderImageViewDelegate, JYContentViewDelegate, JYBlueManagerDelegate, JYCoreBlueViewDelegate>
 
@@ -31,8 +32,8 @@
 
 @property (strong, nonatomic) UIView *ruleBottomView;
 @property (strong, nonatomic) CALayer *layer;
-@property (strong, nonatomic) UIImageView *focusView;
-@property (strong, nonatomic) UIImageView *zoomView;
+@property (strong, nonatomic) CALayer *focusView;
+@property (strong, nonatomic) CALayer *zoomView;
 
 @property (strong, nonatomic) JYShowInfoView *infoView;
 @property (strong, nonatomic) JYLeftTopView *leftTopView;
@@ -87,8 +88,8 @@
 
 - (void)restoreDefaults
 {
-    self.focusView.layer.opacity = 1;
-    self.zoomView.layer.opacity = 1;
+//    self.focusView.layer.opacity = 1;
+//    self.zoomView.layer.opacity = 1;
     self.videoTimeView.layer.opacity = 1;
 }
 
@@ -206,7 +207,8 @@
             
             break;
         case 501:   // 查询当前对焦值
-            [self.blueManager blueToolWriteValue:[NSString stringWithFormat:@"a050%db", (int)(10000 + (1- (-self.focusView.y + SHOW_Y) / (screenH - 30)) * 1000)]];
+            [self.blueManager blueToolWriteValue:[NSString stringWithFormat:@"a050%db", (int)(10000 + ((1- (-self.focusNum + SHOW_Y) / (screenH - 30)) - 0.5) * 1000)]];
+//            NSLog(@"%@", [NSString stringWithFormat:@"a050%db", (int)(10000 + ((1- (-self.focusNum + SHOW_Y) / (screenH - 30)) - 0.5) * 1000)]);
             break;
         case 502:   // 查询当前相机状态
             // 返回拍照成功状态
@@ -246,10 +248,11 @@
             }
             break;
         case 507:   // 查询当前ZOOM
-            if (self.zoomView.y <= -SHOW_Y) {
-                self.zoomView.y = -SHOW_Y;
-            }
-            [self.blueManager blueToolWriteValue:[NSString stringWithFormat:@"a051%db", (int)(20000 + (1.0- (-self.zoomView.y + SHOW_Y) / (screenH - 30)) * 1000)]];
+//            if (self.zoomView.y <= -SHOW_Y) {
+//                self.zoomView.y = -SHOW_Y;
+//            }
+            [self.blueManager blueToolWriteValue:[NSString stringWithFormat:@"a051%db", (int)(20000 + (2.5- (-self.zoomNum + SHOW_Y) / (screenH - 30)) * 1000)]];
+            NSLog(@"%@", [NSString stringWithFormat:@"a051%db", (int)(20000 + (2.5- (-self.zoomNum + SHOW_Y) / (screenH - 30)) * 1000)]);
             break;
         case 601:   // 重复录制开始
             self.useModel = CoreBlueUseModelRepeatRecording;
@@ -510,7 +513,7 @@
 
 - (void)ruleImgViewTimer
 {
-    self.focusNum = [self blueManagerType:self.blueManager.moveDistance andNum:-0 qubie:1];
+    self.focusNum = [self blueManagerType:self.blueManager.moveDistance andNum:0 qubie:1];
     self.zoomNum = [self blueManagerType:self.blueManager.videoZoom andNum:0 qubie:0];
     switch (self.useModel) {
         case CoreBlueUseModelFocus:
@@ -533,11 +536,11 @@
                 self.focusView.hidden = NO;
                 self.zoomView.hidden = YES;
                 //                NSLog(@"self.iFocusView.y = %f", self.iFocusView.y);
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    [UIView animateWithDuration:AnimationTime/1000 animations:^{
-                        self.focusView.transform = CGAffineTransformMakeTranslation(0, self.focusNum);
-                    }];
-                });
+//                dispatch_async(dispatch_get_main_queue(), ^{
+//                    [UIView animateWithDuration:AnimationTime/1000 animations:^{
+//                        self.focusView.transform = CGAffineTransformMakeTranslation(0, self.focusNum);
+//                    }];
+//                });
                 // 30是showView的高度   -- 调节微距
                 [self.videoCamera cameraManagerChangeFoucus:(1 - (-self.focusNum + SHOW_Y) / (screenH - 30))];
                 // 3.保存最后一次的移动距离
@@ -549,11 +552,11 @@
                 self.focusView.hidden = YES;
                 self.zoomView.hidden = NO;
                 
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    [UIView animateWithDuration:AnimationTime/1000 animations:^{
-                        self.zoomView.transform = CGAffineTransformMakeTranslation(0, self.zoomNum);
-                    }];
-                });
+//                dispatch_async(dispatch_get_main_queue(), ^{
+//                    [UIView animateWithDuration:AnimationTime/1000 animations:^{
+//                        self.zoomView.transform = CGAffineTransformMakeTranslation(0, self.zoomNum);
+//                    }];
+//                });
                 [self.videoCamera cameraManagerVideoZoom:(-self.zoomNum + SHOW_Y) / (screenH - 30)];
                 self.saveVideoZoom = self.blueManager.videoZoom;
             }
@@ -562,20 +565,33 @@
     }
 }
 
-- (void)timerClickView:(UIView *)clickView type:(NSInteger)type translation:(CGFloat)y
+- (void)animationWith:(CGFloat)value layer:(CALayer *)layer
 {
-//    NSLog(@"%f", y);
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [UIView animateWithDuration:AnimationTime/1000 animations:^{
-            clickView.transform = CGAffineTransformMakeTranslation(0, y);
-        }];
-    });
+    CABasicAnimation *anima=[CABasicAnimation animation];
     
-    if (self.saveNum != clickView.y) {
+    //1.1告诉系统要执行什么样的动画
+    anima.keyPath=@"position";
+    //设置通过动画，将layer从哪儿移动到哪儿
+    anima.toValue = [NSValue valueWithCGPoint:CGPointMake(25, value + 15)];
+//    NSLog(@"%@", anima.toValue);
+    
+    //1.2设置动画执行完毕之后不删除动画
+    anima.removedOnCompletion=NO;
+    //1.3设置保存动画的最新状态
+    anima.fillMode=kCAFillModeForwards;
+    //2.添加核心动画到layer
+    [layer addAnimation:anima forKey:nil];
+}
+
+- (void)timerClickView:(CALayer *)clickView type:(NSInteger)type translation:(CGFloat)y
+{
+    [self animationWith:y layer:clickView];
+    
+    if (self.saveNum != y) {
         
         if (type == 0) {
             
-            [self.videoCamera cameraManagerVideoZoom:(-clickView.y + SHOW_Y) / (screenH - 30)];
+            [self.videoCamera cameraManagerVideoZoom:(-y + SHOW_Y) / (screenH - 30)];
         }else
         {
             // 2.1 30是showView的高度   -- 调节微距
@@ -593,12 +609,13 @@
             self.bottomPreview.hidden = YES;
             self.timeNum = 0;
         }
-        self.saveNum = clickView.y;
+        self.saveNum = y;
     }
 }
 
 - (CGFloat)blueManagerType:(CGFloat)type andNum:(CGFloat)num qubie:(NSInteger)qubie
 {
+//    NSLog(@"xianweu : %f", type);
     if (type <= 0) {
         type = 0;
     }
@@ -614,6 +631,7 @@
 //                NSLog(@"videoZoom = %f", self.blueManager.videoZoom);
     }
     CGFloat realNum = type + num;
+    
     
     return realNum;
 }
@@ -735,8 +753,8 @@
 /** 设置对比度 */
 - (void)contentViewCustomSliderValueChange:(UISlider *)slider
 {
-    self.focusView.layer.opacity = slider.value;
-    self.zoomView.layer.opacity = slider.value;
+//    self.focusView.layer.opacity = slider.value;
+//    self.zoomView.layer.opacity = slider.value;
     self.videoTimeView.layer.opacity = slider.value;
 }
 
@@ -903,12 +921,12 @@
             case 80:      // 默认
                 self.infoView.dzText = @"x1";
                 self.blueManager.managerLens = JYBlueManagerLensOne;
-                self.focusView.image = [UIImage imageNamed:@"1x_focus"];
+//                self.focusView.image = [UIImage imageNamed:@"1x_focus"];
                 break;
             case 81:      // 2倍增距镜
                 self.infoView.dzText = @"x2";
                 self.blueManager.managerLens = JYBlueManagerLensTwo;
-                self.focusView.image = [UIImage imageNamed:@"2x_focus"];
+//                self.focusView.image = [UIImage imageNamed:@"2x_focus"];
                 break;
             case 82:      // 3倍增距镜
                 self.infoView.dzText = @"x3";
@@ -1001,8 +1019,12 @@
         }
             break;
         case 24:    // 掩藏按钮
-            btn.selected = !btn.selected;
-            self.testView.hidden = btn.selected;
+//            btn.selected = !btn.selected;
+//            self.testView.hidden = btn.selected;
+        {
+            JYViewController *viewCtl = [[JYViewController alloc] init];
+            [self.navigationController pushViewController:viewCtl animated:YES];
+        }
             break;
     }
 }
@@ -1346,21 +1368,29 @@
 }
 
 /** 刻度尺图片View */
-- (UIImageView *)focusView
+- (CALayer *)focusView
 {
     if (!_focusView) {
         
-        _focusView = [self createImageViewWithImage:@"1x_focus"];
+        _focusView = [CALayer layer];
+//        _focusView = [self createImageViewWithImage:@"1x_focus"];
+        //设置需要显示的图片
+        _focusView.contents=(id)[UIImage imageNamed:@"1x_focus"].CGImage;
+        
+        [self.ruleBottomView.layer  addSublayer:_focusView];
     }
     return _focusView;
 }
 
-- (UIImageView *)zoomView
+- (CALayer *)zoomView
 {
     if (!_zoomView) {
         
-        _zoomView = [self createImageViewWithImage:@"home_dz_rule_icon"];
+        _zoomView = [CALayer layer];
+        _zoomView.contents=(id)[UIImage imageNamed:@"home_dz_rule_icon"].CGImage;
         _zoomView.hidden = YES;
+        
+        [self.ruleBottomView.layer  addSublayer:_zoomView];
     }
     return _zoomView;
 }
@@ -1390,6 +1420,7 @@
     self.layer.frame = CGRectMake(0, (screenH - 30) * 0.5, ruleW, 30);
     
     self.focusView.frame = CGRectMake(0, 0, ruleW, screenH);
+    NSLog(@"%@  %@", NSStringFromCGRect(self.focusView.frame), self.focusView);
     self.zoomView.frame = CGRectMake(0, -SHOW_Y, ruleW, screenH);
     
     // 3.设置录像、拍照按钮的View

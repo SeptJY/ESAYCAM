@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10116" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="JYViewController">
+            <connections>
+                <outlet property="addView" destination="XYu-L9-skI" id="7Ki-nF-qjg"/>
+                <outlet property="minusView" destination="km1-Ds-MlV" id="3QK-Cs-P6x"/>
+                <outlet property="transView" destination="dd1-cH-0Dq" id="Feo-mv-J79"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dd1-cH-0Dq">
+                    <rect key="frame" x="280" y="280" width="40" height="40"/>
+                    <color key="backgroundColor" red="0.52132620106213423" green="1" blue="0.74571052336269061" alpha="1" colorSpace="calibratedRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="40" id="2Lc-5a-rpQ"/>
+                        <constraint firstAttribute="height" constant="40" id="U6L-8o-Ec9"/>
+                    </constraints>
+                </view>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XYu-L9-skI">
+                    <rect key="frame" x="350" y="285" width="46" height="30"/>
+                    <state key="normal" title="Button"/>
+                    <connections>
+                        <action selector="addOnClick:" destination="-1" eventType="touchUpInside" id="B21-jR-SC2"/>
+                    </connections>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="km1-Ds-MlV">
+                    <rect key="frame" x="204" y="285" width="46" height="30"/>
+                    <state key="normal" title="Button"/>
+                    <connections>
+                        <action selector="minsOnclick:" destination="-1" eventType="touchUpInside" id="QaE-uD-maB"/>
+                    </connections>
+                </button>
+            </subviews>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstItem="XYu-L9-skI" firstAttribute="centerY" secondItem="dd1-cH-0Dq" secondAttribute="centerY" id="6UX-iB-fNv"/>
+                <constraint firstItem="dd1-cH-0Dq" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="Cac-gV-2hm"/>
+                <constraint firstItem="XYu-L9-skI" firstAttribute="leading" secondItem="dd1-cH-0Dq" secondAttribute="trailing" constant="30" id="EVN-7k-NUJ"/>
+                <constraint firstItem="dd1-cH-0Dq" firstAttribute="leading" secondItem="km1-Ds-MlV" secondAttribute="trailing" constant="30" id="Okh-YS-SPa"/>
+                <constraint firstItem="km1-Ds-MlV" firstAttribute="centerY" secondItem="dd1-cH-0Dq" secondAttribute="centerY" id="U1Q-hW-ULv"/>
+                <constraint firstAttribute="bottom" secondItem="dd1-cH-0Dq" secondAttribute="bottom" constant="20" id="ew5-Fu-rLK"/>
+                <constraint firstItem="dd1-cH-0Dq" firstAttribute="centerY" secondItem="i5M-Pr-FkT" secondAttribute="centerY" id="rde-vh-iHk"/>
+            </constraints>
+            <variation key="default">
+                <mask key="constraints">
+                    <exclude reference="ew5-Fu-rLK"/>
+                </mask>
+            </variation>
+        </view>
+    </objects>
+</document>

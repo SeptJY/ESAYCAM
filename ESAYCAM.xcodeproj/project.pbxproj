@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		08F53520087E14F9893E08ED /* libPods-ESAYCAM.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C9CE75CB855C1E6541B32D5A /* libPods-ESAYCAM.a */; };
+		5B3925031CCF4F750074A5BC /* JYViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B3925011CCF4F750074A5BC /* JYViewController.m */; };
+		5B3925041CCF4F750074A5BC /* JYViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5B3925021CCF4F750074A5BC /* JYViewController.xib */; };
 		5B75BB2E1CCDBBC600F4DD7E /* JYWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B75BB2D1CCDBBC600F4DD7E /* JYWebViewController.m */; };
 		5B75BB321CCDBBCE00F4DD7E /* JYTabBarView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B75BB301CCDBBCE00F4DD7E /* JYTabBarView.m */; };
 		5B75BB331CCDBBCE00F4DD7E /* JYTabBarView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5B75BB311CCDBBCE00F4DD7E /* JYTabBarView.xib */; };
@@ -83,6 +85,9 @@
 
 /* Begin PBXFileReference section */
 		423A7CBCB3806C5CFAE36BD7 /* Pods-ESAYCAM.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ESAYCAM.release.xcconfig"; path = "Pods/Target Support Files/Pods-ESAYCAM/Pods-ESAYCAM.release.xcconfig"; sourceTree = "<group>"; };
+		5B3925001CCF4F750074A5BC /* JYViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JYViewController.h; sourceTree = "<group>"; };
+		5B3925011CCF4F750074A5BC /* JYViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JYViewController.m; sourceTree = "<group>"; };
+		5B3925021CCF4F750074A5BC /* JYViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = JYViewController.xib; sourceTree = "<group>"; };
 		5B75BB2C1CCDBBC600F4DD7E /* JYWebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JYWebViewController.h; sourceTree = "<group>"; };
 		5B75BB2D1CCDBBC600F4DD7E /* JYWebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JYWebViewController.m; sourceTree = "<group>"; };
 		5B75BB2F1CCDBBCE00F4DD7E /* JYTabBarView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JYTabBarView.h; sourceTree = "<group>"; };
@@ -356,6 +361,9 @@
 				5B75BB3C1CCE41DB00F4DD7E /* JYTestView.h */,
 				5B75BB3D1CCE41DB00F4DD7E /* JYTestView.m */,
 				5B75BB3F1CCE424600F4DD7E /* JYTestView.xib */,
+				5B3925001CCF4F750074A5BC /* JYViewController.h */,
+				5B3925011CCF4F750074A5BC /* JYViewController.m */,
+				5B3925021CCF4F750074A5BC /* JYViewController.xib */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -699,6 +707,7 @@
 				5B75BB401CCE424600F4DD7E /* JYTestView.xib in Resources */,
 				5B7AF0991CC9D5570081F82B /* JYNewFeturnData.plist in Resources */,
 				5B7AF0501CC9D1B40081F82B /* Info.plist in Resources */,
+				5B3925041CCF4F750074A5BC /* JYViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -782,6 +791,7 @@
 				5B7AF0AC1CC9D5F00081F82B /* JYNSString+Extension.m in Sources */,
 				5B7AF0F81CCA1BB50081F82B /* JYLabelDirection.m in Sources */,
 				5B75BB3E1CCE41DB00F4DD7E /* JYTestView.m in Sources */,
+				5B3925031CCF4F750074A5BC /* JYViewController.m in Sources */,
 				5B7AF0911CC9D5360081F82B /* JQBounceSpot1Animation.m in Sources */,
 				5B7AF0A11CC9D5920081F82B /* JYPeripheral.m in Sources */,
 				5B7AF0CA1CCA16D80081F82B /* DWBubbleMenuButton.m in Sources */,
