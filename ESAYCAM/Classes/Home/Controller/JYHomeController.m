@@ -632,6 +632,7 @@
             [self.coreBlueView.tableView reloadData];
             break;
         case 53:  // 手轮方向调节
+//            NSLog(@"%@", btn.currentTitle);
             if (btn.selected == 1) {
                 if ([btn.currentTitle isEqualToString:@"正"]) {
                     [btn setTitle:@"反" forState:UIControlStateNormal];
@@ -645,7 +646,7 @@
                     [btn setTitle:@"正" forState:UIControlStateNormal];
                 } else
                 {
-                    [btn setTitle:@"Negative" forState:UIControlStateNormal];
+                    [btn setTitle:@"Positive" forState:UIControlStateNormal];
                 }
                 self.blueManager.derection = CoreBlueDerectionClockwise;
             }

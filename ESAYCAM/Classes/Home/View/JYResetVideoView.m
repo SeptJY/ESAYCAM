@@ -35,7 +35,7 @@
 {
     self.oneCell.title = [[JYLanguageTool bundle] localizedStringForKey:@"实时" value:nil table:@"Localizable"];
     
-    self.twoCell.title = [[JYLanguageTool bundle] localizedStringForKey:@"两点" value:nil table:@"Localizable"];
+    self.twoCell.title = [[JYLanguageTool bundle] localizedStringForKey:@"线性" value:nil table:@"Localizable"];
     
 }
 

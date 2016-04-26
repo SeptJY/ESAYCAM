@@ -213,7 +213,7 @@ static NSString *ID = @"fenbinalv";
             [self.settingView setDirectionBtnTitle:@"实时" andTag:86];
             break;
         case 81:
-            [self.settingView setDirectionBtnTitle:@"两点" andTag:86];
+            [self.settingView setDirectionBtnTitle:@"线性" andTag:86];
             break;
     }
     

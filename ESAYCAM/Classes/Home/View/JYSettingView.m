@@ -142,7 +142,9 @@ static void *COREBLUE_NAME = &COREBLUE_NAME;
     self.languageDirection.titleBtn = [[JYLanguageTool bundle] localizedStringForKey:self.languageDirection.titleBtn value:nil table:@"Localizable"];
     if ([self.direction.titleBtn isEqualToString:@"正"] || [self.direction.titleBtn isEqualToString:@"Positive"]) {
         self.direction.titleBtn = [[JYLanguageTool bundle] localizedStringForKey:@"正" value:nil table:@"Localizable"];
-    } else {
+    }
+    
+    if ([self.direction.titleBtn isEqualToString:@"反"] || [self.direction.titleBtn isEqualToString:@"Negative"]) {
         self.direction.titleBtn = [[JYLanguageTool bundle] localizedStringForKey:@"反" value:nil table:@"Localizable"];
     }
     
@@ -285,11 +287,19 @@ static void *COREBLUE_NAME = &COREBLUE_NAME;
         case 82:   // 语言切换
             self.languageDirection.titleBtn = NSLocalizedString(title, nil);
             break;
-        case 86:   // 语言切换
-            self.lastVideo.titleBtn = NSLocalizedString(title, nil);
+        case 86:   // 最后一次
+            if ([self.lastVideo.titleBtn isEqualToString:@"Linear"]) {
+                self.lastVideo.titleBtn = @"RealTime";
+            } else if ([self.lastVideo.titleBtn isEqualToString:@"RealTime"]) {
+                self.lastVideo.titleBtn = @"Linear";
+            } else if ([self.lastVideo.titleBtn isEqualToString:@"实时"]) {
+                self.lastVideo.titleBtn = @"线性";
+            }else if ([self.lastVideo.titleBtn isEqualToString:@"线性"]) {
+                self.lastVideo.titleBtn = @"实时";
+            }
             break;
             
-        case 85:   // 语言切换
+        case 85:   // 附加镜头
             self.chooseDirection.titleBtn = NSLocalizedString(title, nil);
             break;
             
