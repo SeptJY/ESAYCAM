@@ -180,7 +180,7 @@
     [self.videoTimeView stopTimer];
     [self.videoCamera stopVideo];
     self.leftTopView.imgHidden = NO;
-    [SVProgressHUD showWithStatus:@"正在保存。。。"];
+    [SVProgressHUD showWithStatus:@"正在保存..."];
 }
 
 /** 蓝牙发送的指令和查询指令 */
@@ -251,8 +251,7 @@
 //            if (self.zoomView.y <= -SHOW_Y) {
 //                self.zoomView.y = -SHOW_Y;
 //            }
-            [self.blueManager blueToolWriteValue:[NSString stringWithFormat:@"a051%db", (int)(20000 + (2.5- (-self.zoomNum + SHOW_Y) / (screenH - 30)) * 1000)]];
-            NSLog(@"%@", [NSString stringWithFormat:@"a051%db", (int)(20000 + (2.5- (-self.zoomNum + SHOW_Y) / (screenH - 30)) * 1000)]);
+            [self.blueManager blueToolWriteValue:[NSString stringWithFormat:@"a051%db", (int)(20000 + self.zoomNum / (screenH - 30) * 1000)]];
             break;
         case 601:   // 重复录制开始
             self.useModel = CoreBlueUseModelRepeatRecording;
@@ -541,6 +540,7 @@
 //                        self.focusView.transform = CGAffineTransformMakeTranslation(0, self.focusNum);
 //                    }];
 //                });
+                [self animationWith:self.focusNum layer:self.focusView];
                 // 30是showView的高度   -- 调节微距
                 [self.videoCamera cameraManagerChangeFoucus:(1 - (-self.focusNum + SHOW_Y) / (screenH - 30))];
                 // 3.保存最后一次的移动距离
@@ -552,6 +552,7 @@
                 self.focusView.hidden = YES;
                 self.zoomView.hidden = NO;
                 
+                [self animationWith:self.zoomNum layer:self.zoomView];
 //                dispatch_async(dispatch_get_main_queue(), ^{
 //                    [UIView animateWithDuration:AnimationTime/1000 animations:^{
 //                        self.zoomView.transform = CGAffineTransformMakeTranslation(0, self.zoomNum);
@@ -650,20 +651,31 @@
             [self.coreBlueView.tableView reloadData];
             break;
         case 53:  // 手轮方向调节
-//            NSLog(@"%@", btn.currentTitle);
             if (btn.selected == 1) {
                 if ([btn.currentTitle isEqualToString:@"正"]) {
                     [btn setTitle:@"反" forState:UIControlStateNormal];
-                } else
+                } else if ([btn.currentTitle isEqualToString:@"反"])
+                {
+                    [btn setTitle:@"正" forState:UIControlStateNormal];
+                }
+                else if ([btn.currentTitle isEqualToString:@"Positive"])
                 {
                     [btn setTitle:@"Negative" forState:UIControlStateNormal];
+                } else {
+                    [btn setTitle:@"Positive" forState:UIControlStateNormal];
                 }
                 self.blueManager.derection = CoreBlueDerectionAntiClockwise;
             } else {
                 if ([btn.currentTitle isEqualToString:@"反"]) {
                     [btn setTitle:@"正" forState:UIControlStateNormal];
-                } else
+                } else if ([btn.currentTitle isEqualToString:@"正"])
                 {
+                    [btn setTitle:@"反" forState:UIControlStateNormal];
+                }
+                else if ([btn.currentTitle isEqualToString:@"Positive"])
+                {
+                    [btn setTitle:@"Negative" forState:UIControlStateNormal];
+                }else {
                     [btn setTitle:@"Positive" forState:UIControlStateNormal];
                 }
                 self.blueManager.derection = CoreBlueDerectionClockwise;
@@ -921,12 +933,12 @@
             case 80:      // 默认
                 self.infoView.dzText = @"x1";
                 self.blueManager.managerLens = JYBlueManagerLensOne;
-//                self.focusView.image = [UIImage imageNamed:@"1x_focus"];
+                self.focusView.contents=(id)[UIImage imageNamed:@"1x_focus"].CGImage;
                 break;
             case 81:      // 2倍增距镜
                 self.infoView.dzText = @"x2";
                 self.blueManager.managerLens = JYBlueManagerLensTwo;
-//                self.focusView.image = [UIImage imageNamed:@"2x_focus"];
+                self.focusView.contents=(id)[UIImage imageNamed:@"2x_focus"].CGImage;
                 break;
             case 82:      // 3倍增距镜
                 self.infoView.dzText = @"x3";
