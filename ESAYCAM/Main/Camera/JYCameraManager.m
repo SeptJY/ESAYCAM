@@ -8,6 +8,18 @@
 
 #import "JYCameraManager.h"
 
+static void * CapturingStillImageContext = &CapturingStillImageContext;
+static void * SessionRunningContext = &SessionRunningContext;
+static void * CaptureLensPositionContext = &CaptureLensPositionContext;
+static void * DeviceWhiteBalanceGains = &DeviceWhiteBalanceGains;
+static void * DeviceExposureTargetBias = &DeviceExposureTargetBias;
+static void * DeviceExposureISO = &DeviceExposureISO;
+static void * DeviceExposureDuration = &DeviceExposureDuration;
+static void * DeviceExposureOffset = &DeviceExposureOffset;
+
+static const float kExposureMinimumDuration = 1.0/1000;
+static const float kExposureDurationPower = 5;
+
 @interface JYCameraManager () <GPUImageMovieWriterDelegate>
 {
     CGRect _frame;
@@ -16,8 +28,6 @@
 @property (nonatomic, unsafe_unretained) dispatch_queue_t prepareFilterQueue;
 
 @property (nonatomic , strong) GPUImageView *cameraScreen;
-
-
 
 @end
 
@@ -31,6 +41,8 @@
         [superview addSubview:self.cameraScreen];
         
         self.videoSize = CGSizeMake(1920.0, 1080.0);
+        
+        [self addObservers];
     }
     return self;
 }
@@ -145,13 +157,14 @@
 #pragma mark -------------------------> 调焦焦距
 - (void)cameraManagerChangeFoucus:(CGFloat)value
 {
+    CGFloat lensPosition = value - 0.5;
     if (videoInput.device.position == AVCaptureDevicePositionBack) {
-        if (value < 0) {
-            value = 0;
+        if (lensPosition < 0) {
+            lensPosition = 0;
         }
         
-        if (value > 1) {
-            value = 1;
+        if (lensPosition > 1) {
+            lensPosition = 1;
         }
         
         NSError *error = nil;
@@ -160,10 +173,59 @@
             
             [currentVideoDevice setAutoFocusRangeRestriction:AVCaptureAutoFocusRangeRestrictionNone];
             
-            [currentVideoDevice setFocusModeLockedWithLensPosition:value completionHandler:nil];
+            [currentVideoDevice setFocusModeLockedWithLensPosition:lensPosition completionHandler:nil];
             
             [currentVideoDevice unlockForConfiguration];
         }
+    }
+}
+
+- (void)cameraManagerExposureIOS:(CGFloat)iso
+{
+    if (iso >= self.inputCamera.activeFormat.maxISO) {
+        iso = self.inputCamera.activeFormat.maxISO;
+    }
+    
+    if (iso <= self.inputCamera.activeFormat.minISO) {
+        iso = self.inputCamera.activeFormat.minISO;
+    }
+    
+    NSError *error = nil;
+    if ( [self.inputCamera lockForConfiguration:&error] ) {
+        [self.inputCamera setExposureModeCustomWithDuration:AVCaptureExposureDurationCurrent ISO:iso completionHandler:nil];
+        [self.inputCamera unlockForConfiguration];
+    }
+    else {
+        NSLog( @"Could not lock device for configuration: %@", error );
+    }
+}
+
+- (void)setExposureDurationWith:(CGFloat)value withBlock:(JYLableText)text
+{
+    NSError *error = nil;
+    
+    double p = pow( value, kExposureDurationPower ); // Apply power function to expand slider's low-end range
+    double minDurationSeconds = MAX( CMTimeGetSeconds(self.inputCamera.activeFormat.minExposureDuration ), kExposureMinimumDuration );
+    double maxDurationSeconds = CMTimeGetSeconds(self.inputCamera.activeFormat.maxExposureDuration );
+    double newDurationSeconds = p * ( maxDurationSeconds - minDurationSeconds ) + minDurationSeconds; // Scale from 0-1 slider range to actual duration
+    
+    if (self.imgHidden == NO) {
+        
+        if ( newDurationSeconds < 1 ) {
+            int digits = MAX( 0, 2 + floor( log10( newDurationSeconds ) ) );
+            text([NSString stringWithFormat:@"1/%.*f", digits, 1/newDurationSeconds]);
+        }
+        else {
+            text([NSString stringWithFormat:@"%.2f", newDurationSeconds]);
+        }
+    }
+    
+    if ( [self.inputCamera lockForConfiguration:&error] ) {
+        [self.inputCamera setExposureModeCustomWithDuration:CMTimeMakeWithSeconds( newDurationSeconds, 1000*1000*1000 )  ISO:AVCaptureISOCurrent completionHandler:nil];
+        [self.inputCamera unlockForConfiguration];
+    }
+    else {
+        NSLog( @"Could not lock device for configuration: %@", error );
     }
 }
 
@@ -297,7 +359,7 @@
 }
 
 /** 设置相机拍摄质量 */
-- (void)cameraManagerEffectqualityWithTag:(NSInteger)tag
+- (void)cameraManagerEffectqualityWithTag:(NSInteger)tag withBlock:(CanSetSessionPreset)canSetSessionPreset
 {
     //    dispatch_async( self.sessionQueue, ^{
     // 2.偏好设置保存选中的分辨率
@@ -335,8 +397,13 @@
             sessionPreset = AVCaptureSessionPresetHigh;
             break;
     }
+    if ([self.captureSession canSetSessionPreset:sessionPreset])
+    {
+        self.captureSession.sessionPreset = sessionPreset;
+    } else{
+        canSetSessionPreset(NO);
+    }
     
-    self.captureSession.sessionPreset = sessionPreset;
     
     if ( [self.captureSession canAddInput:videoDeviceInput] ) {
         [self.captureSession addInput:videoDeviceInput];
@@ -400,5 +467,91 @@
     
     return captureDevice;
 }
+
+#pragma mark KVO and Notifications
+- (void)addObservers
+{
+    // 1.监听会话是否开启
+    [self.captureSession addObserver:self forKeyPath:@"running" options:NSKeyValueObservingOptionNew context:SessionRunningContext];
+    // 实时监听白平衡的变化
+    [self.inputCamera addObserver:self forKeyPath:@"deviceWhiteBalanceGains" options:NSKeyValueObservingOptionNew context:DeviceWhiteBalanceGains];
+    
+    // 实时监听对焦值的变化
+    [self.inputCamera addObserver:self forKeyPath:@"lensPosition" options:NSKeyValueObservingOptionNew context:CaptureLensPositionContext];
+    
+    // 实时监听曝光偏移的变化exposureTargetOffset
+    [self.inputCamera addObserver:self forKeyPath:@"exposureTargetOffset" options:NSKeyValueObservingOptionNew context:DeviceExposureOffset];
+    
+    // 实时监听感光度的变化
+    [self.inputCamera addObserver:self forKeyPath:@"ISO" options:NSKeyValueObservingOptionNew context:DeviceExposureISO];
+    
+    // 实时监听曝光时间的变化
+    [self.inputCamera addObserver:self forKeyPath:@"exposureDuration" options:NSKeyValueObservingOptionNew context:DeviceExposureDuration];
+}
+
+#pragma KVO监听事件
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
+{
+    //    id oldValue = change[NSKeyValueChangeOldKey];
+    id newValue = change[NSKeyValueChangeNewKey];
+    if (context == CaptureLensPositionContext) {  // 对焦值
+        //        [JYSeptManager sharedManager].focusValue = videoCamera.inputCamera.lensPosition;
+        //        NSLog(@"lensPosition = %f", videoInput.device.lensPosition);
+    } else if (context == DeviceWhiteBalanceGains) {  // 白平衡
+        if (self.tempAuto == 0 && self.tintAuto == 0) {
+            AVCaptureWhiteBalanceTemperatureAndTintValues temperatureAndTintValues = [self.inputCamera temperatureAndTintValuesForDeviceWhiteBalanceGains:self.inputCamera.deviceWhiteBalanceGains];
+            [JYSeptManager sharedManager].temperatureAndTintValues = temperatureAndTintValues;
+            self.temp = temperatureAndTintValues.temperature;
+            self.tint = temperatureAndTintValues.tint;
+        }
+        else if ( newValue && newValue != [NSNull null] ) {
+            AVCaptureWhiteBalanceGains newGains;
+            [newValue getValue:&newGains];
+            AVCaptureWhiteBalanceTemperatureAndTintValues newTemperatureAndTint = [self.inputCamera temperatureAndTintValuesForDeviceWhiteBalanceGains:newGains];
+            
+            if (self.inputCamera.whiteBalanceMode != AVCaptureExposureModeLocked ) {
+                
+                [JYSeptManager sharedManager].temperatureAndTintValues = newTemperatureAndTint;
+            }
+        }
+    }
+    else if (context == DeviceExposureISO) {   // 感光度
+        if (self.isoAuto == 0) {
+            [JYSeptManager sharedManager].ISOValue = self.inputCamera.ISO;
+        }
+    }
+    
+    else if (context == DeviceExposureOffset) {   // 曝光偏移
+        [JYSeptManager sharedManager].offsetValue = self.inputCamera.exposureTargetOffset;
+    }
+    else if (context == DeviceExposureDuration) {   // 曝光时间
+        if ( newValue && newValue != [NSNull null] ) {
+            double newDurationSeconds = CMTimeGetSeconds( [newValue CMTimeValue] );
+            if (self.inputCamera.exposureMode != AVCaptureExposureModeCustom ) {
+                double minDurationSeconds = MAX( CMTimeGetSeconds(self.inputCamera.activeFormat.minExposureDuration ), kExposureMinimumDuration );
+                double maxDurationSeconds = CMTimeGetSeconds(self.inputCamera.activeFormat.maxExposureDuration );
+                // Map from duration to non-linear UI range 0-1
+                double p = ( newDurationSeconds - minDurationSeconds ) / ( maxDurationSeconds - minDurationSeconds ); // Scale to 0-1
+                [JYSeptManager sharedManager].timeValue = pow( p, 1 / kExposureDurationPower );
+            }
+        }
+    }
+    
+    // 1.监听会话是否开启
+    else if ( context == SessionRunningContext ) {
+        //        BOOL isSessionRunning = [change[NSKeyValueChangeNewKey] boolValue];
+        
+        dispatch_async( dispatch_get_main_queue(), ^{
+            // 只有当设备有多个摄像头时才有能力改变相机
+            //            self.cameraButton.enabled = isSessionRunning && ( [AVCaptureDevice devicesWithMediaType:AVMediaTypeVideo].count > 1 );
+            //            self.recordButton.enabled = isSessionRunning;
+            //            self.stillButton.enabled = isSessionRunning;
+        } );
+    }
+    else {
+        [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
+    }
+}
+
 
 @end

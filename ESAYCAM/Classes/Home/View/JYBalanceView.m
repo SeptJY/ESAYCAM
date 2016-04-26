@@ -37,7 +37,7 @@ static void *JYSELF_HIDDEN = &JYSELF_HIDDEN;
         
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(changeLanguage) name:@"changeLanguage" object:nil];
         
-        //        [[JYSeptManager sharedManager] addObserver:self forKeyPath:@"temperatureAndTintValues" options:NSKeyValueObservingOptionNew context:JYTEMP_AND_TINT_VALUES];
+        [[JYSeptManager sharedManager] addObserver:self forKeyPath:@"temperatureAndTintValues" options:NSKeyValueObservingOptionNew context:JYTEMP_AND_TINT_VALUES];
         
         [self addObserver:self forKeyPath:@"hidden" options:NSKeyValueObservingOptionNew context:JYSELF_HIDDEN];
         
@@ -125,39 +125,6 @@ static void *JYSELF_HIDDEN = &JYSELF_HIDDEN;
     if (self.delegate && [self.delegate respondsToSelector:@selector(whiteBalanceCustomSliderValueChange:)]) {
         [self.delegate whiteBalanceCustomSliderValueChange:slider];
     }
-//    NSLog(@"%f -- %f", slider.value, (1900 - slider.value) / 100.0 * 0.7);
-    if (slider.value >= 1800 && slider.value <= 2000) {
-        UIButton *btn = [self viewWithTag:80];
-        btn.alpha = 1.0;
-    } else if (slider.value >= 3700 && slider.value <= 3900)
-    {
-        UIButton *btn = [self viewWithTag:81];
-        btn.alpha = 1.0;
-    } else if (slider.value >= 5300 && slider.value <= 5500)
-    {
-        UIButton *btn = [self viewWithTag:82];
-        btn.alpha = 1.0;
-    } else if (slider.value >= 6900 && slider.value <= 7100)
-    {
-        UIButton *btn = [self viewWithTag:83];
-        btn.alpha = 1.0;
-    } else if (slider.value >= 9800 && slider.value <= 10000)
-    {
-        UIButton *btn = [self viewWithTag:84];
-        btn.alpha = 1.0;
-    } else
-    {
-        UIButton *btn1 = [self viewWithTag:80];
-        btn1.alpha = 0.3;
-        UIButton *btn2 = [self viewWithTag:81];
-        btn2.alpha = 0.3;
-        UIButton *btn3 = [self viewWithTag:82];
-        btn3.alpha = 0.3;
-        UIButton *btn4 = [self viewWithTag:83];
-        btn4.alpha = 0.3;
-        UIButton *btn5 = [self viewWithTag:84];
-        btn5.alpha = 0.3;
-    }
 }
 
 - (void)customSliderAutoBtnOnClick:(UIButton *)btn
@@ -166,7 +133,6 @@ static void *JYSELF_HIDDEN = &JYSELF_HIDDEN;
     if (self.delegate && [self.delegate respondsToSelector:@selector(whiteBalanceCustomSliderAutoBtnOnClick:)]) {
         [self.delegate whiteBalanceCustomSliderAutoBtnOnClick:btn];
     }
-    
     // 2.点击色温、和色调的时候
     if (btn.tag == 30 || btn.tag == 31) {
         
@@ -279,6 +245,8 @@ static void *JYSELF_HIDDEN = &JYSELF_HIDDEN;
             [[JYSeptManager sharedManager] addObserver:self forKeyPath:@"temperatureAndTintValues" options:NSKeyValueObservingOptionNew context:JYTEMP_AND_TINT_VALUES];
         }
     }else if (context == JYTEMP_AND_TINT_VALUES) {
+        self.tempSlider.value = [JYSeptManager sharedManager].temperatureAndTintValues.temperature;
+        self.tintSlider.value = [JYSeptManager sharedManager].temperatureAndTintValues.tint;
     }
     else {
         [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];

@@ -22,10 +22,18 @@ typedef NS_ENUM(NSUInteger, CamereFangDaModel) {
     CamereFangDaModelHidden,
 };
 
+typedef NS_ENUM(NSUInteger, JYPhotoImgModel) {
+    JYPhotoImgNone,
+    JYPhotoImgPhtoto,
+    JYPhotoImgTVPhtoto,
+};
+
 @interface JYHomeController : UIViewController
 
 @property (assign, nonatomic) CoreBlueUseModel useModel;
 
 @property (assign, nonatomic) CamereFangDaModel fangDaModel;
+
+@property (assign, nonatomic) JYPhotoImgModel imgModel;
 
 @end

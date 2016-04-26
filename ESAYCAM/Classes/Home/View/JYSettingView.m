@@ -107,6 +107,28 @@ static void *COREBLUE_NAME = &COREBLUE_NAME;
     
     self.chooseDirection.titleLabel = [[JYLanguageTool bundle] localizedStringForKey:@"附加镜头" value:nil table:@"Localizable"];
     
+    self.lastVideo.titleLabel = [[JYLanguageTool bundle] localizedStringForKey:@"最后一次" value:nil table:@"Localizable"];
+    
+    if ([self.lastVideo.titleBtn isEqualToString:@"实时"] || [self.lastVideo.titleBtn isEqualToString:@"RealTime"]) {
+        self.lastVideo.titleBtn = [[JYLanguageTool bundle] localizedStringForKey:@"实时" value:nil table:@"Localizable"];
+    }
+    
+    if ([self.lastVideo.titleBtn isEqualToString:@"线性"] || [self.lastVideo.titleBtn isEqualToString:@"Linear"]) {
+        self.lastVideo.titleBtn = [[JYLanguageTool bundle] localizedStringForKey:@"线性" value:nil table:@"Localizable"];
+    }
+    
+    if ([self.chooseDirection.titleBtn isEqualToString:@"镜头x1"] || [self.chooseDirection.titleBtn isEqualToString:@"Lensx1"]) {
+        self.chooseDirection.titleBtn = [[JYLanguageTool bundle] localizedStringForKey:@"镜头x1" value:nil table:@"Localizable"];
+    }
+    
+    if ([self.lastVideo.titleBtn isEqualToString:@"镜头x2"] || [self.chooseDirection.titleBtn isEqualToString:@"Lensx2"]) {
+        self.lastVideo.titleBtn = [[JYLanguageTool bundle] localizedStringForKey:@"镜头x2" value:nil table:@"Localizable"];
+    }
+    
+    if ([self.lastVideo.titleBtn isEqualToString:@"镜头x3"] || [self.chooseDirection.titleBtn isEqualToString:@"Lensx3"]) {
+        self.lastVideo.titleBtn = [[JYLanguageTool bundle] localizedStringForKey:@"镜头x3" value:nil table:@"Localizable"];
+    }
+    
     self.suportDirection.titleLabel = [[JYLanguageTool bundle] localizedStringForKey:@"硬件支持" value:nil table:@"Localizable"];
     
 //    self.positionSwitch.title = [[JYLanguageTool bundle] localizedStringForKey:@"摄像头" value:nil table:@"Localizable"];
@@ -225,6 +247,7 @@ static void *COREBLUE_NAME = &COREBLUE_NAME;
         _chooseDirection.btnTag = 55;
         _chooseDirection.delegate = self;
         _chooseDirection.tag = 85;
+        _chooseDirection.titleBtn = @"镜头x1";
         
         [self addSubview:_chooseDirection];
     }
@@ -241,6 +264,7 @@ static void *COREBLUE_NAME = &COREBLUE_NAME;
         _lastVideo.btnTag = 56;
         _lastVideo.delegate = self;
         _lastVideo.tag = 86;
+        _lastVideo.titleBtn = @"实时";
         
         [self addSubview:_lastVideo];
     }
@@ -260,6 +284,13 @@ static void *COREBLUE_NAME = &COREBLUE_NAME;
             
         case 82:   // 语言切换
             self.languageDirection.titleBtn = NSLocalizedString(title, nil);
+            break;
+        case 86:   // 语言切换
+            self.lastVideo.titleBtn = NSLocalizedString(title, nil);
+            break;
+            
+        case 85:   // 语言切换
+            self.chooseDirection.titleBtn = NSLocalizedString(title, nil);
             break;
             
         default:
@@ -412,11 +443,11 @@ static void *COREBLUE_NAME = &COREBLUE_NAME;
     
     self.direction.frame = CGRectMake(JYSpaceWidth, JYCortrolWidth * 3, viewW, JYCortrolWidth);
     
-    self.suportDirection.frame = CGRectMake(JYSpaceWidth, JYCortrolWidth * 4, viewW, JYCortrolWidth);
+    self.lastVideo.frame = CGRectMake(JYSpaceWidth, JYCortrolWidth * 4, viewW, JYCortrolWidth);
     
     self.chooseDirection.frame = CGRectMake(JYSpaceWidth, JYCortrolWidth * 5, viewW, JYCortrolWidth);
     
-    self.lastVideo.frame = CGRectMake(JYSpaceWidth, JYCortrolWidth * 6, viewW, JYCortrolWidth);
+    self.suportDirection.frame = CGRectMake(JYSpaceWidth, JYCortrolWidth * 6, viewW, JYCortrolWidth);
     
     self.flashSwitch.frame = CGRectMake(JYSpaceWidth, JYCortrolWidth * 7, viewW, JYCortrolWidth);
     

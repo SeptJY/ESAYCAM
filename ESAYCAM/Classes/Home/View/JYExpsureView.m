@@ -36,6 +36,10 @@ static void *JYSELFHIDDEN = &JYSELFHIDDEN;
     if (self) {
         
 //        [self addObserver:self forKeyPath:@"hidden" options:NSKeyValueObservingOptionOld|NSKeyValueObservingOptionNew context:JYSELFHIDDEN];
+        [[JYSeptManager sharedManager] addObserver:self forKeyPath:@"offsetValue" options:NSKeyValueObservingOptionNew context:SeptManagerOffsetValue];
+        [[JYSeptManager sharedManager] addObserver:self forKeyPath:@"baisValue" options:NSKeyValueObservingOptionNew context:SeptManagerBaisValue];
+        [[JYSeptManager sharedManager] addObserver:self forKeyPath:@"ISOValue" options:NSKeyValueObservingOptionNew context:SeptManagerISOValue];
+        [[JYSeptManager sharedManager] addObserver:self forKeyPath:@"timeValue" options:NSKeyValueObservingOptionNew context:SeptManagerTimeValue];
         
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(changeLanguage) name:@"changeLanguage" object:nil];
     }
@@ -59,7 +63,7 @@ static void *JYSELFHIDDEN = &JYSELFHIDDEN;
  
  @property (assign, nonatomic) CGFloat ISOValue;
  
- @property (assign, nonatomic) CGFloat timeValue;
+ @property (assign, nonatomic) CGFloat SeptManagerTimeValue;
  
  @property (assign, nonatomic) CGFloat focusValue;
  
@@ -68,7 +72,18 @@ static void *JYSELFHIDDEN = &JYSELFHIDDEN;
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSString *,id> *)change context:(void *)context
 {
-    [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
+    if (context == SeptManagerOffsetValue) {
+        self.offSetSlider.value = [JYSeptManager sharedManager].offsetValue;
+    } else if (context == SeptManagerBaisValue) {
+        self.baisSlider.value = [JYSeptManager sharedManager].baisValue;
+    } else if (context == SeptManagerISOValue) {
+        self.ISOSlider.value = [JYSeptManager sharedManager].ISOValue;
+    } else if (context == SeptManagerTimeValue) {
+        self.timeSlider.value = [JYSeptManager sharedManager].timeValue;
+    }
+    else {
+        [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
+    }
 }
 
 #pragma mark -------------------------> 懒加载baisSlider、ISOSlider、timeSlider、offSetSlider

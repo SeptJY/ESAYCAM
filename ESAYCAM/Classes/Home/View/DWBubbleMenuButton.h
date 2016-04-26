@@ -65,6 +65,12 @@ typedef NS_ENUM(NSUInteger, ExpansionDirection) {
 - (void)showButtons;
 - (void)dismissButtons;
 
+/**  */
+- (void)menuButtonSeleted:(BOOL)seleted andTag:(NSInteger)tag;
+
+/**  */
+- (void)menuButtonsetImg:(NSString *)img andTag:(NSInteger)tag;
+
 @end
 
 // 版权属于原作者

@@ -208,6 +208,14 @@ static NSString *ID = @"fenbinalv";
     if (self.delegate && [self.delegate respondsToSelector:@selector(contentViewResetVideo:)]) {
         [self.delegate contentViewResetVideo:btn];
     }
+    switch (btn.tag) {
+        case 80:
+            [self.settingView setDirectionBtnTitle:@"实时" andTag:86];
+            break;
+        case 81:
+            [self.settingView setDirectionBtnTitle:@"两点" andTag:86];
+            break;
+    }
     
     self.resetView.hidden = YES;
     self.scrollView.hidden = NO;
@@ -216,37 +224,32 @@ static NSString *ID = @"fenbinalv";
 #pragma mark -------------------------> JYThreeBtnViewDelegate 设置、白平衡、曝光按钮的显示与掩藏
 - (void)threeViewButtonOnClick:(UIButton *)sender
 {
-    self.supportView.hidden = YES;
     switch (sender.tag) {
         case 30:    // 设置按钮
-            self.balanceView.hidden = YES;
-            self.expsureView.hidden = YES;
-            self.scrollView.hidden = NO;
+            [self showView:self.scrollView hiddenView:self.expsureView and:self.balanceView];
             break;
         case 31:    // 白平衡按钮
-            self.expsureView.hidden = YES;
-            self.scrollView.hidden = YES;
-            self.balanceView.hidden = NO;
-            self.resolutionView.hidden = YES;
-            self.languageView.hidden = YES;
-            self.lensView.hidden = YES;
-            self.supportView.hidden = YES;
-            self.resetView.hidden = YES;
+            [self showView:self.balanceView hiddenView:self.expsureView and:self.scrollView];
             break;
-         case 32:    // 曝光按钮
-            self.scrollView.hidden = YES;
-            self.balanceView.hidden = YES;
-            self.expsureView.hidden = NO;
-            self.resolutionView.hidden = YES;
-            self.languageView.hidden = YES;
-            self.lensView.hidden = YES;
-            self.supportView.hidden = YES;
-            self.resetView.hidden = YES;
+        case 32:    // 曝光按钮
+            [self showView:self.expsureView hiddenView:self.balanceView and:self.scrollView];
             break;
             
         default:
             break;
     }
+}
+
+- (void)showView:(UIView *)showView hiddenView:(UIView *)oneView and:(UIView *)twoView
+{
+    twoView.hidden = YES;
+    oneView.hidden = YES;
+    showView.hidden = NO;
+    self.resolutionView.hidden = YES;
+    self.languageView.hidden = YES;
+    self.lensView.hidden = YES;
+    self.supportView.hidden = YES;
+    self.resetView.hidden = YES;
 }
 
 /** JYSettingViewDelegate  */
@@ -309,21 +312,29 @@ static NSString *ID = @"fenbinalv";
             // 设置语言的名称
             [self.settingView setDirectionBtnTitle:@"英文" andTag:82];
             break;
-            
-        default:
-            break;
     }
 }
 
 - (void)cameraLensViewCellBtnOnClick:(UIButton *)btn
 {
-    // 1.点击选择 -- 掩藏分辨率的View  显示scrollView
-    self.lensView.hidden = YES;
-    self.scrollView.hidden = NO;
-    
     if (self.delegate && [self.delegate respondsToSelector:@selector(contentViewCameraLensViewCellBtnOnClick:)]) {
         [self.delegate contentViewCameraLensViewCellBtnOnClick:btn];
     }
+    switch (btn.tag) {
+        case 80:
+            [self.settingView setDirectionBtnTitle:@"镜头x1" andTag:85];
+            break;
+        case 81:
+            [self.settingView setDirectionBtnTitle:@"镜头x2" andTag:85];
+            break;
+        case 82:
+            [self.settingView setDirectionBtnTitle:@"镜头x3" andTag:85];
+            break;
+    }
+    
+    // 1.点击选择 -- 掩藏分辨率的View  显示scrollView
+    self.lensView.hidden = YES;
+    self.scrollView.hidden = NO;
 }
 
 - (void)settingViewLabelDirectionBtnOnClick:(UIButton *)btn

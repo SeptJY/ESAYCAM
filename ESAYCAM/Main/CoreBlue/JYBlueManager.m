@@ -486,13 +486,13 @@ static void * MINUS_ZOOM_MINUS = &MINUS_ZOOM_MINUS;
             break;
             
         case 513:   // 查询app版本
-            [self blueToolWriteValue:[NSString stringWithFormat:@"a0518%04db", [JYSeptManager sharedManager].version]];
+            [self blueToolWriteValue:[NSString stringWithFormat:@"a0518%04ldb", (long)[JYSeptManager sharedManager].version]];
             break;
         case 1101:   // 查询硬件版本
-            NSLog(@"硬件版本 = %@", str);
+            [JYSeptManager sharedManager].hardVersion = [[str substringWithRange:NSMakeRange(5, 4)] integerValue];
             break;
-        case 1102:   // 当前硬件软件版本
-            NSLog(@"硬件软件版本 = %@", str);
+        case 1102:   // 当前固件版本
+            [JYSeptManager sharedManager].hardSoftVersion = [[str substringWithRange:NSMakeRange(5, 4)] integerValue];
             break;
             
         default:

@@ -33,6 +33,9 @@
 
 @property (assign, nonatomic) NSInteger version;
 
+@property (assign, nonatomic) NSInteger hardVersion;   // 硬件版本
+@property (assign, nonatomic) NSInteger hardSoftVersion;   // 硬件软件版本
+
 @property (copy, nonatomic) NSString *perName;     // 蓝牙名称
 
 @property (assign, nonatomic) AVCaptureWhiteBalanceTemperatureAndTintValues temperatureAndTintValues;

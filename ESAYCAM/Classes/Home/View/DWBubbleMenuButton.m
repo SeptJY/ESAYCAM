@@ -251,6 +251,18 @@
     _isCollapsed = YES;
 }
 
+- (void)menuButtonSeleted:(BOOL)seleted andTag:(NSInteger)tag
+{
+    UIButton *buttton = [(UIButton *)self viewWithTag:tag];
+    buttton.selected = seleted;
+}
+
+- (void)menuButtonsetImg:(NSString *)img andTag:(NSInteger)tag
+{
+    UIButton *buttton = [(UIButton *)self viewWithTag:tag];
+    [buttton setImage:[UIImage imageNamed:img] forState:UIControlStateNormal];
+}
+
 #pragma mark -
 #pragma mark Private Methods
 

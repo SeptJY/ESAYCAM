@@ -17,6 +17,10 @@
 
 @end
 
+typedef void(^CanSetSessionPreset)(BOOL isCan);
+
+typedef void(^JYLableText)(NSString *text);
+
 @interface JYCameraManager : GPUImageVideoCamera
 
 @property (weak, nonatomic) id<JYCameraManagerDelegate>cameraDelegate;
@@ -42,7 +46,7 @@
 /** 设置曝光时间和感光度 */
 - (void)videoCameraWithExposureTime:(CGFloat)time andIso:(CGFloat)iso;
 /** 设置相机拍摄质量 */
-- (void)cameraManagerEffectqualityWithTag:(NSInteger)tag;
+- (void)cameraManagerEffectqualityWithTag:(NSInteger)tag withBlock:(CanSetSessionPreset)canSetSessionPreset;
 /** 设置相机的曝光模式 */
 - (void)exposeMode:(AVCaptureExposureMode)exposureMode;
 /** 设置相机的白平衡模式 */
@@ -62,5 +66,19 @@
 - (void)cameraManagerBalanceGainsWithTemp:(CGFloat)temp andTint:(CGFloat)tint;
 
 @property (assign, nonatomic) CGSize videoSize;
+
+@property (assign, nonatomic) BOOL tempAuto;
+@property (assign, nonatomic) BOOL tintAuto;
+@property (assign, nonatomic) BOOL isoAuto;
+@property (assign, nonatomic) BOOL timeAuto;
+
+@property (assign, nonatomic) CGFloat temp;
+@property (assign, nonatomic) CGFloat tint;
+
+@property (assign, nonatomic) BOOL imgHidden;
+
+- (void)cameraManagerExposureIOS:(CGFloat)iso;
+
+- (void)setExposureDurationWith:(CGFloat)value withBlock:(JYLableText)text;
 
 @end

@@ -33,9 +33,9 @@
 /** 切换语言 */
 - (void)changeLanguage
 {
-    self.oneCell.title = [[JYLanguageTool bundle] localizedStringForKey:@"简体中文" value:nil table:@"Localizable"];
+    self.oneCell.title = [[JYLanguageTool bundle] localizedStringForKey:@"实时" value:nil table:@"Localizable"];
     
-    self.twoCell.title = [[JYLanguageTool bundle] localizedStringForKey:@"英文" value:nil table:@"Localizable"];
+    self.twoCell.title = [[JYLanguageTool bundle] localizedStringForKey:@"两点" value:nil table:@"Localizable"];
     
 }
 
@@ -61,7 +61,7 @@
         _twoCell = [[JYDirectionCell alloc] initWithTitle:@"两点"];
         _twoCell.btnTag = 81;
         _twoCell.delegate = self;
-        _twoCell.tag = 70;
+        _twoCell.tag = 71;
         _twoCell.imageHidden = YES;
         
         [self addSubview:_twoCell];

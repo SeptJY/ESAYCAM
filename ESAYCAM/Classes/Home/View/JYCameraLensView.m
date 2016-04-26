@@ -26,7 +26,7 @@
 {
     if (!_oneCell) {
         
-        _oneCell = [[JYDirectionCell alloc] initWithTitle:@"默认x1"];
+        _oneCell = [[JYDirectionCell alloc] initWithTitle:@"镜头x1"];
         _oneCell.btnTag = 80;
         _oneCell.delegate = self;
         _oneCell.tag = 90;
@@ -40,7 +40,7 @@
 {
     if (!_twoCell) {
         
-        _twoCell = [[JYDirectionCell alloc] initWithTitle:@"增距镜x2"];
+        _twoCell = [[JYDirectionCell alloc] initWithTitle:@"镜头x2"];
         _twoCell.btnTag = 81;
         _twoCell.delegate = self;
         _twoCell.tag = 91;
@@ -54,7 +54,7 @@
 {
     if (!_threeCell) {
         
-        _threeCell = [[JYDirectionCell alloc] initWithTitle:@"待定x3"];
+        _threeCell = [[JYDirectionCell alloc] initWithTitle:@"镜头x3"];
         _threeCell.btnTag = 82;
         _threeCell.delegate = self;
         _threeCell.tag = 92;
@@ -70,7 +70,6 @@
         JYDirectionCell *cell = (JYDirectionCell *)[self viewWithTag: i];
         cell.imageHidden = YES;
     }
-    
     if (self.delegate && [self.delegate respondsToSelector:@selector(cameraLensViewCellBtnOnClick:)]) {
         [self.delegate cameraLensViewCellBtnOnClick:btn];
     }

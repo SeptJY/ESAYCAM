@@ -8,6 +8,12 @@
 
 /* Begin PBXBuildFile section */
 		08F53520087E14F9893E08ED /* libPods-ESAYCAM.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C9CE75CB855C1E6541B32D5A /* libPods-ESAYCAM.a */; };
+		5B75BB2E1CCDBBC600F4DD7E /* JYWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B75BB2D1CCDBBC600F4DD7E /* JYWebViewController.m */; };
+		5B75BB321CCDBBCE00F4DD7E /* JYTabBarView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B75BB301CCDBBCE00F4DD7E /* JYTabBarView.m */; };
+		5B75BB331CCDBBCE00F4DD7E /* JYTabBarView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5B75BB311CCDBBCE00F4DD7E /* JYTabBarView.xib */; };
+		5B75BB361CCDC11100F4DD7E /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 5B75BB381CCDC11100F4DD7E /* Localizable.strings */; };
+		5B75BB3E1CCE41DB00F4DD7E /* JYTestView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B75BB3D1CCE41DB00F4DD7E /* JYTestView.m */; };
+		5B75BB401CCE424600F4DD7E /* JYTestView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5B75BB3F1CCE424600F4DD7E /* JYTestView.xib */; };
 		5B7AF0281CC9D1350081F82B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5B7AF0271CC9D1350081F82B /* Assets.xcassets */; };
 		5B7AF02B1CC9D1350081F82B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5B7AF0291CC9D1350081F82B /* LaunchScreen.storyboard */; };
 		5B7AF0361CC9D1360081F82B /* ESAYCAMTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B7AF0351CC9D1360081F82B /* ESAYCAMTests.m */; };
@@ -48,7 +54,6 @@
 		5B7AF0E01CCA1B230081F82B /* JYExpsureView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B7AF0DF1CCA1B230081F82B /* JYExpsureView.m */; };
 		5B7AF0E31CCA1B340081F82B /* JYResolutionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B7AF0E21CCA1B340081F82B /* JYResolutionView.m */; };
 		5B7AF0E61CCA1B3B0081F82B /* JYLanguageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B7AF0E51CCA1B3B0081F82B /* JYLanguageView.m */; };
-		5B7AF0E91CCA1B420081F82B /* JYSupportView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B7AF0E81CCA1B420081F82B /* JYSupportView.m */; };
 		5B7AF0EC1CCA1B4B0081F82B /* JYCameraLensView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B7AF0EB1CCA1B4B0081F82B /* JYCameraLensView.m */; };
 		5B7AF0EF1CCA1B520081F82B /* JYResetVideoView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B7AF0EE1CCA1B520081F82B /* JYResetVideoView.m */; };
 		5B7AF0F21CCA1B660081F82B /* JYDirectionCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B7AF0F11CCA1B660081F82B /* JYDirectionCell.m */; };
@@ -56,6 +61,7 @@
 		5B7AF0F81CCA1BB50081F82B /* JYLabelDirection.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B7AF0F71CCA1BB50081F82B /* JYLabelDirection.m */; };
 		5B7AF0FB1CCA1BBD0081F82B /* JYLabelSwitch.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B7AF0FA1CCA1BBD0081F82B /* JYLabelSwitch.m */; };
 		5B7AF0FE1CCA1C870081F82B /* JYCoreBlueView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B7AF0FD1CCA1C870081F82B /* JYCoreBlueView.m */; };
+		5BC870B61CCC635100886A7B /* JYSupportView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BC870B41CCC635100886A7B /* JYSupportView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -77,6 +83,17 @@
 
 /* Begin PBXFileReference section */
 		423A7CBCB3806C5CFAE36BD7 /* Pods-ESAYCAM.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ESAYCAM.release.xcconfig"; path = "Pods/Target Support Files/Pods-ESAYCAM/Pods-ESAYCAM.release.xcconfig"; sourceTree = "<group>"; };
+		5B75BB2C1CCDBBC600F4DD7E /* JYWebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JYWebViewController.h; sourceTree = "<group>"; };
+		5B75BB2D1CCDBBC600F4DD7E /* JYWebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JYWebViewController.m; sourceTree = "<group>"; };
+		5B75BB2F1CCDBBCE00F4DD7E /* JYTabBarView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JYTabBarView.h; sourceTree = "<group>"; };
+		5B75BB301CCDBBCE00F4DD7E /* JYTabBarView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JYTabBarView.m; sourceTree = "<group>"; };
+		5B75BB311CCDBBCE00F4DD7E /* JYTabBarView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = JYTabBarView.xib; sourceTree = "<group>"; };
+		5B75BB391CCDC11300F4DD7E /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		5B75BB3A1CCDC15100F4DD7E /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/LaunchScreen.strings"; sourceTree = "<group>"; };
+		5B75BB3B1CCDC15100F4DD7E /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		5B75BB3C1CCE41DB00F4DD7E /* JYTestView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JYTestView.h; sourceTree = "<group>"; };
+		5B75BB3D1CCE41DB00F4DD7E /* JYTestView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JYTestView.m; sourceTree = "<group>"; };
+		5B75BB3F1CCE424600F4DD7E /* JYTestView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = JYTestView.xib; sourceTree = "<group>"; };
 		5B7AF0181CC9D1340081F82B /* ESAYCAM.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ESAYCAM.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5B7AF0271CC9D1350081F82B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		5B7AF02A1CC9D1350081F82B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -157,8 +174,6 @@
 		5B7AF0E21CCA1B340081F82B /* JYResolutionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JYResolutionView.m; sourceTree = "<group>"; };
 		5B7AF0E41CCA1B3B0081F82B /* JYLanguageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JYLanguageView.h; sourceTree = "<group>"; };
 		5B7AF0E51CCA1B3B0081F82B /* JYLanguageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JYLanguageView.m; sourceTree = "<group>"; };
-		5B7AF0E71CCA1B420081F82B /* JYSupportView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JYSupportView.h; sourceTree = "<group>"; };
-		5B7AF0E81CCA1B420081F82B /* JYSupportView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JYSupportView.m; sourceTree = "<group>"; };
 		5B7AF0EA1CCA1B4B0081F82B /* JYCameraLensView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JYCameraLensView.h; sourceTree = "<group>"; };
 		5B7AF0EB1CCA1B4B0081F82B /* JYCameraLensView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JYCameraLensView.m; sourceTree = "<group>"; };
 		5B7AF0ED1CCA1B520081F82B /* JYResetVideoView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JYResetVideoView.h; sourceTree = "<group>"; };
@@ -173,6 +188,8 @@
 		5B7AF0FA1CCA1BBD0081F82B /* JYLabelSwitch.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JYLabelSwitch.m; sourceTree = "<group>"; };
 		5B7AF0FC1CCA1C870081F82B /* JYCoreBlueView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JYCoreBlueView.h; sourceTree = "<group>"; };
 		5B7AF0FD1CCA1C870081F82B /* JYCoreBlueView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JYCoreBlueView.m; sourceTree = "<group>"; };
+		5BC870B41CCC635100886A7B /* JYSupportView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JYSupportView.m; sourceTree = "<group>"; };
+		5BC870B51CCC635100886A7B /* JYSupportView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JYSupportView.h; sourceTree = "<group>"; };
 		73CC82AF7BEB308A0F1E1F3D /* Pods-ESAYCAM.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ESAYCAM.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ESAYCAM/Pods-ESAYCAM.debug.xcconfig"; sourceTree = "<group>"; };
 		C9CE75CB855C1E6541B32D5A /* libPods-ESAYCAM.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ESAYCAM.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -336,6 +353,9 @@
 			children = (
 				5B7AF0711CC9D3110081F82B /* JYHomeController.h */,
 				5B7AF0721CC9D3110081F82B /* JYHomeController.m */,
+				5B75BB3C1CCE41DB00F4DD7E /* JYTestView.h */,
+				5B75BB3D1CCE41DB00F4DD7E /* JYTestView.m */,
+				5B75BB3F1CCE424600F4DD7E /* JYTestView.xib */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -368,14 +388,14 @@
 				5B7AF0E21CCA1B340081F82B /* JYResolutionView.m */,
 				5B7AF0E41CCA1B3B0081F82B /* JYLanguageView.h */,
 				5B7AF0E51CCA1B3B0081F82B /* JYLanguageView.m */,
-				5B7AF0E71CCA1B420081F82B /* JYSupportView.h */,
-				5B7AF0E81CCA1B420081F82B /* JYSupportView.m */,
 				5B7AF0EA1CCA1B4B0081F82B /* JYCameraLensView.h */,
 				5B7AF0EB1CCA1B4B0081F82B /* JYCameraLensView.m */,
 				5B7AF0ED1CCA1B520081F82B /* JYResetVideoView.h */,
 				5B7AF0EE1CCA1B520081F82B /* JYResetVideoView.m */,
 				5B7AF0FC1CCA1C870081F82B /* JYCoreBlueView.h */,
 				5B7AF0FD1CCA1C870081F82B /* JYCoreBlueView.m */,
+				5BC870B51CCC635100886A7B /* JYSupportView.h */,
+				5BC870B41CCC635100886A7B /* JYSupportView.m */,
 				5B7AF0B91CC9F5780081F82B /* JYRulesView.h */,
 				5B7AF0BA1CC9F5780081F82B /* JYRulesView.m */,
 				5B7AF0BC1CCA08160081F82B /* JYVideoView.h */,
@@ -454,6 +474,8 @@
 		5B7AF05F1CC9D2C30081F82B /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				5B75BB2C1CCDBBC600F4DD7E /* JYWebViewController.h */,
+				5B75BB2D1CCDBBC600F4DD7E /* JYWebViewController.m */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -468,6 +490,9 @@
 		5B7AF0611CC9D2C30081F82B /* View */ = {
 			isa = PBXGroup;
 			children = (
+				5B75BB2F1CCDBBCE00F4DD7E /* JYTabBarView.h */,
+				5B75BB301CCDBBCE00F4DD7E /* JYTabBarView.m */,
+				5B75BB311CCDBBCE00F4DD7E /* JYTabBarView.xib */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -543,6 +568,7 @@
 			children = (
 				5B7AF0931CC9D53C0081F82B /* JYLanguageTool.h */,
 				5B7AF0941CC9D53C0081F82B /* JYLanguageTool.m */,
+				5B75BB381CCDC11100F4DD7E /* Localizable.strings */,
 			);
 			path = Language;
 			sourceTree = "<group>";
@@ -645,6 +671,7 @@
 			knownRegions = (
 				en,
 				Base,
+				"zh-Hans",
 			);
 			mainGroup = 5B7AF00F1CC9D1330081F82B;
 			productRefGroup = 5B7AF0191CC9D1340081F82B /* Products */;
@@ -664,9 +691,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				5B7AF0CF1CCA19440081F82B /* JYSliderImageView.xib in Resources */,
+				5B75BB331CCDBBCE00F4DD7E /* JYTabBarView.xib in Resources */,
 				5B7AF0D71CCA1B0C0081F82B /* JYThreeBtnView.xib in Resources */,
 				5B7AF02B1CC9D1350081F82B /* LaunchScreen.storyboard in Resources */,
 				5B7AF0281CC9D1350081F82B /* Assets.xcassets in Resources */,
+				5B75BB361CCDC11100F4DD7E /* Localizable.strings in Resources */,
+				5B75BB401CCE424600F4DD7E /* JYTestView.xib in Resources */,
 				5B7AF0991CC9D5570081F82B /* JYNewFeturnData.plist in Resources */,
 				5B7AF0501CC9D1B40081F82B /* Info.plist in Resources */,
 			);
@@ -751,6 +781,7 @@
 				5B7AF0D61CCA1B0C0081F82B /* JYThreeBtnView.m in Sources */,
 				5B7AF0AC1CC9D5F00081F82B /* JYNSString+Extension.m in Sources */,
 				5B7AF0F81CCA1BB50081F82B /* JYLabelDirection.m in Sources */,
+				5B75BB3E1CCE41DB00F4DD7E /* JYTestView.m in Sources */,
 				5B7AF0911CC9D5360081F82B /* JQBounceSpot1Animation.m in Sources */,
 				5B7AF0A11CC9D5920081F82B /* JYPeripheral.m in Sources */,
 				5B7AF0CA1CCA16D80081F82B /* DWBubbleMenuButton.m in Sources */,
@@ -760,6 +791,7 @@
 				5B7AF0E61CCA1B3B0081F82B /* JYLanguageView.m in Sources */,
 				5B7AF0951CC9D53C0081F82B /* JYLanguageTool.m in Sources */,
 				5B7AF0C41CCA0B4E0081F82B /* JYShoeInfoView.m in Sources */,
+				5B75BB2E1CCDBBC600F4DD7E /* JYWebViewController.m in Sources */,
 				5B7AF0511CC9D1B40081F82B /* main.m in Sources */,
 				5B7AF0CE1CCA19440081F82B /* JYSliderImageView.m in Sources */,
 				5B7AF0731CC9D3110081F82B /* JYHomeController.m in Sources */,
@@ -770,7 +802,7 @@
 				5B7AF0DD1CCA1B1C0081F82B /* JYBalanceView.m in Sources */,
 				5B7AF0BB1CC9F5780081F82B /* JYRulesView.m in Sources */,
 				5B7AF0AE1CC9D5F00081F82B /* UIImage+CKExtension.m in Sources */,
-				5B7AF0E91CCA1B420081F82B /* JYSupportView.m in Sources */,
+				5BC870B61CCC635100886A7B /* JYSupportView.m in Sources */,
 				5B7AF08B1CC9D52F0081F82B /* JYSeptManager.m in Sources */,
 				5B7AF0A21CC9D5920081F82B /* JYResolutionData.m in Sources */,
 				5B7AF0C11CCA08530081F82B /* JYVideoTimeView.m in Sources */,
@@ -781,6 +813,7 @@
 				5B7AF0761CC9D5010081F82B /* JYCameraManager.m in Sources */,
 				5B7AF0DA1CCA1B150081F82B /* JYSettingView.m in Sources */,
 				5B7AF0B21CC9F2B70081F82B /* JYNewFetureViewCtl.m in Sources */,
+				5B75BB321CCDBBCE00F4DD7E /* JYTabBarView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -816,10 +849,20 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
+		5B75BB381CCDC11100F4DD7E /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				5B75BB391CCDC11300F4DD7E /* en */,
+				5B75BB3B1CCDC15100F4DD7E /* zh-Hans */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
 		5B7AF0291CC9D1350081F82B /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
 				5B7AF02A1CC9D1350081F82B /* Base */,
+				5B75BB3A1CCDC15100F4DD7E /* zh-Hans */,
 			);
 			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
