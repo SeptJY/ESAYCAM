@@ -18,6 +18,7 @@
 #import "JYBlueManager.h"
 #import "JYCoreBlueView.h"
 #import "JYWebViewController.h"
+#import "JYTestView.h"
 
 @interface JYHomeController () <JYCameraManagerDelegate, JYVideoViewDelegate, JYLeftTopViewDelegate, MWPhotoBrowserDelegate, DWBubbleMenuViewDelegate, JYSliderImageViewDelegate, JYContentViewDelegate, JYBlueManagerDelegate, JYCoreBlueViewDelegate>
 
@@ -65,6 +66,8 @@
 @property (strong, nonatomic) UIButton *phtotBtn;
 @property (strong, nonatomic) UIButton *enlargeBtn;
 
+@property (strong, nonatomic) JYTestView *testView;
+
 @end
 
 @implementation JYHomeController
@@ -110,6 +113,13 @@
     return _videoCamera;
 }
 
+- (void)cameraManagerRecodingSuccess:(NSURL *)url
+{
+    [SVProgressHUD dismiss];
+    
+    self.videoView.imgUrl = url;
+}
+
 #pragma mark ------------------------->JYBlueManagerDelegate 蓝牙管理者和蓝牙界面显示
 - (void)blueManagerToTableViewReloadData
 {
@@ -148,6 +158,30 @@
     [self.coreBlueView.tableView reloadData];
 }
 
+- (void)takeVideoing
+{
+    if (self.leftTopView.imgHidden == NO) {
+        self.videoView.isVideo = NO;
+        // 掩藏快门
+        self.sliderImageView.hidden = YES;
+        [self.menuBtn menuButtonSeleted:YES andTag:101];
+        [self.menuBtn menuButtonsetImg:@"home_photo_icon" andTag:102];
+        self.imgModel = JYPhotoImgNone;
+        
+        [self.videoCamera startVideo];
+        [self.videoTimeView startTimer];
+        self.leftTopView.imgHidden = YES;
+    }
+}
+
+- (void)stopVideoing
+{
+    [self.videoTimeView stopTimer];
+    [self.videoCamera stopVideo];
+    self.leftTopView.imgHidden = NO;
+    [SVProgressHUD showWithStatus:@"正在保存。。。"];
+}
+
 /** 蓝牙发送的指令和查询指令 */
 - (void)blueManagerOthersCommandWith:(NSInteger)num
 {
@@ -157,29 +191,19 @@
             break;
         case 301:   // 录像开始
             
-            self.videoView.isVideo = NO;
-            // 掩藏快门
-            self.sliderImageView.hidden = YES;
-            [self.menuBtn menuButtonSeleted:YES andTag:101];
-            [self.menuBtn menuButtonsetImg:@"home_photo_icon" andTag:102];
-            self.imgModel = JYPhotoImgNone;
-            
-            [self.videoCamera startVideo];
-            [self.videoTimeView startTimer];
-            self.leftTopView.imgHidden = YES;
+            [self takeVideoing];
             if (self.useModel == CoreBlueUseModelRepeatRecording) {
                 [self.videoView startResetVideoing];
             }
             self.videoView.btnSeleted = YES;
             break;
         case 302:   // 录像停止
-            [self.videoTimeView stopTimer];
-            [self.videoCamera stopVideo];
-            self.leftTopView.imgHidden = NO;
+            [self stopVideoing];
             if (self.useModel == CoreBlueUseModelRepeatRecording) {
                 [self.videoView stopResetVideoing];
             }
             self.videoView.btnSeleted = NO;
+            
             break;
         case 501:   // 查询当前对焦值
             [self.blueManager blueToolWriteValue:[NSString stringWithFormat:@"a050%db", (int)(10000 + (1- (-self.focusView.y + SHOW_Y) / (screenH - 30)) * 1000)]];
@@ -260,6 +284,8 @@
 - (void)blueManagerPeripheralConnectSuccess
 {
     self.infoView.image = @"home_core_blue_normal";
+    
+    [SVProgressHUD showSuccessWithStatus:@"连接成功" duration:2.0f style:SVProgressHUDMaskTypeBlack];
 }
 
 - (void)coreBlueAddOrMinus:(CoreBlueType)type
@@ -354,11 +380,11 @@
 /** 提示用户设备断开 */
 - (void)blueManagerPeripheralDidConnect
 {
-//    [MBProgressHUD showError:@"蓝牙连接中断"];
+    [SVProgressHUD showErrorWithStatus:@"蓝牙连接中断" duration:2.0f style:SVProgressHUDMaskTypeBlack];
     self.infoView.image = @"home_core_blue_error";
     self.infoView.raNum = 10.0;
     
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(10.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(5.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         
         if (self.blueManager.connectPeripheral == nil)
         {
@@ -486,7 +512,6 @@
 {
     self.focusNum = [self blueManagerType:self.blueManager.moveDistance andNum:-0 qubie:1];
     self.zoomNum = [self blueManagerType:self.blueManager.videoZoom andNum:0 qubie:0];
-    
     switch (self.useModel) {
         case CoreBlueUseModelFocus:
             [self timerClickView:self.focusView type:1 translation:self.focusNum];
@@ -949,22 +974,12 @@
     switch (btn.tag) {
         case 21:    // 录像
             btn.selected = !btn.selected;
-            self.videoView.isVideo = NO;
-            // 掩藏快门
-            self.sliderImageView.hidden = YES;
-            [self.menuBtn menuButtonSeleted:YES andTag:101];
-            [self.menuBtn menuButtonsetImg:@"home_photo_icon" andTag:102];
-            self.imgModel = JYPhotoImgNone;
             
             if (btn.selected) {
-                [self.videoCamera startVideo];
-                [self.videoTimeView startTimer];
-                self.leftTopView.imgHidden = YES;
+                [self takeVideoing];
             } else
             {
-                [self.videoCamera stopVideo];
-                [self.videoTimeView stopTimer];
-                self.leftTopView.imgHidden = NO;
+                [self stopVideoing];
             }
             
             break;
@@ -983,6 +998,10 @@
             
             [self.navigationController pushViewController:browser animated:YES];
         }
+            break;
+        case 24:    // 掩藏按钮
+            btn.selected = !btn.selected;
+            self.testView.hidden = btn.selected;
             break;
     }
 }
@@ -1403,6 +1422,8 @@
     self.coreBlueView.frame = self.myContentView.frame;
     
     self.grladView.frame = self.view.bounds;
+    
+    self.testView.frame = self.myContentView.frame;
 }
 
 - (void)didReceiveMemoryWarning {
@@ -1437,5 +1458,18 @@
         return [[JYSaveVideoData sharedManager].thumbsArray objectAtIndex:index];
     return nil;
 }
+
+- (JYTestView *)testView
+{
+    if (!_testView) {
+        
+        _testView = [[JYTestView alloc] init];
+        _testView.hidden = YES;
+        
+        [self.subView addSubview:_testView];
+    }
+    return _testView;
+}
+
 
 @end

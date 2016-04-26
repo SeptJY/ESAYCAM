@@ -213,6 +213,7 @@ static void * MINUS_ZOOM_MINUS = &MINUS_ZOOM_MINUS;
     
     // 提示用户设备断开
     [self peripheralDidConnect];
+    
     // 重新扫描设备
     [centralManager scanForPeripheralsWithServices:nil options:0];
 }

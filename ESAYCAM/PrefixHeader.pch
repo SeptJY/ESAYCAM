@@ -26,5 +26,6 @@
 #import "JYResolutionData.h"
 #import "GPUImage.h"
 #import "JYDefine.h"
+#import "SVProgressHUD.h"
 
 #endif /* PrefixHeader_pch */

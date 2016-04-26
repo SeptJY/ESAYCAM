@@ -24,6 +24,8 @@ static void *IMAGE_ICONS = &IMAGE_ICONS;
 
 @property (strong, nonatomic) UIButton *iconsBtn;
 
+@property (strong, nonatomic) UIButton *hiddenBtn;
+
 @end
 
 @implementation JYVideoView
@@ -213,11 +215,26 @@ static void *IMAGE_ICONS = &IMAGE_ICONS;
     
     // ***************************************************************
     self.indacatorView.frame = CGRectMake(bgW/2, self.videoBtn.y - 30, 0, 0);
+    
+    self.hiddenBtn.frame = CGRectMake(self.iconsBtn.x, self.iconsBtn.y - 50, 50, 30);
 }
 
 - (void)dealloc
 {
     [[JYSaveVideoData sharedManager].image removeObserver:self forKeyPath:@"image" context:IMAGE_ICONS];
+}
+
+- (UIButton *)hiddenBtn
+{
+    if (!_hiddenBtn) {
+        
+        _hiddenBtn = [[UIButton alloc] init];
+        _hiddenBtn.tag = 24;
+        [_hiddenBtn addTarget:self action:@selector(videoViewButtonOnClick:) forControlEvents:UIControlEventTouchUpInside];
+        
+        [self addSubview:_hiddenBtn];
+    }
+    return _hiddenBtn;
 }
 
 @end

@@ -58,7 +58,7 @@
 {
     if (!_twoCell) {
         
-        _twoCell = [[JYDirectionCell alloc] initWithTitle:@"两点"];
+        _twoCell = [[JYDirectionCell alloc] initWithTitle:@"线性"];
         _twoCell.btnTag = 81;
         _twoCell.delegate = self;
         _twoCell.tag = 71;

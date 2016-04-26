@@ -22,6 +22,25 @@
 
 @implementation JYCameraLensView
 
+- (instancetype)init
+{
+    self = [super init];
+    if (self) {
+        
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(changeLanguage) name:@"changeLanguage" object:nil];
+    }
+    return self;
+}
+
+- (void)changeLanguage
+{
+    self.oneCell.title = [[JYLanguageTool bundle] localizedStringForKey:@"镜头x1" value:nil table:@"Localizable"];
+    
+    self.twoCell.title = [[JYLanguageTool bundle] localizedStringForKey:@"镜头x2" value:nil table:@"Localizable"];
+    
+    self.threeCell.title = [[JYLanguageTool bundle] localizedStringForKey:@"镜头x3" value:nil table:@"Localizable"];
+}
+
 - (JYDirectionCell *)oneCell
 {
     if (!_oneCell) {
@@ -91,6 +110,11 @@
     self.twoCell.frame = CGRectMake(JYSpaceWidth, y + JYCortrolWidth * 1, self.width - JYSpaceWidth, JYCortrolWidth);
     
     self.threeCell.frame = CGRectMake(JYSpaceWidth, y + JYCortrolWidth * 2, self.width - JYSpaceWidth, JYCortrolWidth);
+}
+
+- (void)dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 @end

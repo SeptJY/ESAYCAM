@@ -122,6 +122,8 @@ typedef NS_ENUM(NSUInteger, SVProgressHUDAnimationType) {
 + (void)popActivity; // decrease activity count, if activity count == 0 the HUD is dismissed
 + (void)dismiss;
 + (void)dismissWithDelay:(NSTimeInterval)delay;
++ (void)showSuccessWithStatus:(NSString *)status duration:(NSTimeInterval)displayInterval style:(SVProgressHUDMaskType)maskType;
++ (void)showErrorWithStatus:(NSString *)status duration:(NSTimeInterval)displayInterval style:(SVProgressHUDMaskType)maskType;
 
 + (BOOL)isVisible;
 
